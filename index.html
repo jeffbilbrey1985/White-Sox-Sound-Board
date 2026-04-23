@@ -1072,7 +1072,8 @@
   }
 
   function renumber() {
-    players.sort((a, b) => a.order - b.order);
+    // Assign order based on current array position — do NOT pre-sort,
+    // or we undo the move that just happened.
     players.forEach((p, i) => { p.order = i + 1; });
   }
 
@@ -1170,7 +1171,7 @@
   function renderAdmin() {
     const container = document.getElementById('admin-rows');
     container.innerHTML = '';
-    players.sort((a, b) => a.order - b.order);
+    // players array is already in display order — trust it.
     players.forEach(p => {
       const row = document.createElement('div');
       row.className = 'player-row';
