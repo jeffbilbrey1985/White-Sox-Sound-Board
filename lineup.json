@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-23T13:34:52.172Z",
+  "updatedAt": "2026-04-23T13:37:02.783Z",
   "players": [
     {
       "id": "p_1776830408832_qo3wb6",
@@ -20,27 +20,27 @@
       "startTime": 0
     },
     {
-      "id": "p_1776830408832_zajn06",
-      "order": 4,
-      "name": "Knox Bilbrey",
-      "startTime": 0
-    },
-    {
       "id": "p_1776830408832_pkqo1j",
-      "order": 5,
+      "order": 4,
       "name": "Sam Zeller",
       "startTime": 0
     },
     {
       "id": "p_1776830408832_dzoey3",
-      "order": 6,
+      "order": 5,
       "name": "Turner Bruckelmeyer",
       "startTime": 0
     },
     {
       "id": "p_1776830408832_1y4ohi",
-      "order": 7,
+      "order": 6,
       "name": "Henri Savenok",
+      "startTime": 0
+    },
+    {
+      "id": "p_1776830408832_zajn06",
+      "order": 7,
+      "name": "Knox Bilbrey",
       "startTime": 0
     },
     {
