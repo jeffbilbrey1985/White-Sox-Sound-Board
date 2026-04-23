@@ -1,0 +1,77 @@
+{
+  "updatedAt": "2026-04-22T00:00:00Z",
+  "players": [
+    {
+      "id": "p_1776830408832_qo3wb6",
+      "order": 1,
+      "name": "Daniel Tole",
+      "startTime": 0
+    },
+    {
+      "id": "p_1776830408832_rfsr5a",
+      "order": 2,
+      "name": "Bo Somers",
+      "startTime": 0
+    },
+    {
+      "id": "p_1776830408832_zajn06",
+      "order": 3,
+      "name": "Knox Bilbrey",
+      "startTime": 0
+    },
+    {
+      "id": "p_1776830408832_unsqxd",
+      "order": 4,
+      "name": "Elliott Small",
+      "startTime": 0
+    },
+    {
+      "id": "p_1776830408832_pkqo1j",
+      "order": 5,
+      "name": "Sam Zeller",
+      "startTime": 0
+    },
+    {
+      "id": "p_1776830408832_dzoey3",
+      "order": 6,
+      "name": "Turner Brckelmeyer",
+      "startTime": 0
+    },
+    {
+      "id": "p_1776830408832_1y4ohi",
+      "order": 7,
+      "name": "Henri Savenok",
+      "startTime": 0
+    },
+    {
+      "id": "p_1776830408832_u2grm0",
+      "order": 8,
+      "name": "Alonzo Ramirez",
+      "startTime": 0
+    },
+    {
+      "id": "p_1776830408832_0p35bi",
+      "order": 9,
+      "name": "Oliver Wong",
+      "startTime": 0
+    },
+    {
+      "id": "p_1776830408832_u54lw6",
+      "order": 10,
+      "name": "Henry Demaria",
+      "startTime": 0
+    },
+    {
+      "id": "p_1776830408832_9fc8py",
+      "order": 11,
+      "name": "Jack Demaria",
+      "startTime": 0
+    },
+    {
+      "id": "p_1776830408832_v3lsnf",
+      "order": 12,
+      "name": "",
+      "startTime": 0
+    }
+  ]
+}
