@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-22T00:00:00Z",
+  "updatedAt": "2026-04-23T13:34:52.172Z",
   "players": [
     {
       "id": "p_1776830408832_qo3wb6",
@@ -14,15 +14,15 @@
       "startTime": 0
     },
     {
-      "id": "p_1776830408832_zajn06",
+      "id": "p_1776830408832_unsqxd",
       "order": 3,
-      "name": "Knox Bilbrey",
+      "name": "Elliott Small",
       "startTime": 0
     },
     {
-      "id": "p_1776830408832_unsqxd",
+      "id": "p_1776830408832_zajn06",
       "order": 4,
-      "name": "Elliott Small",
+      "name": "Knox Bilbrey",
       "startTime": 0
     },
     {
@@ -34,7 +34,7 @@
     {
       "id": "p_1776830408832_dzoey3",
       "order": 6,
-      "name": "Turner Brckelmeyer",
+      "name": "Turner Bruckelmeyer",
       "startTime": 0
     },
     {
