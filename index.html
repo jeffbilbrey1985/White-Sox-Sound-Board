@@ -875,7 +875,151 @@
   }
   .drag-handle:active { cursor: grabbing; }
   .player-row { cursor: auto; }
+
+  /* ---- Scoreboard ---- */
+  .scoreboard {
+    background: linear-gradient(180deg, var(--charcoal) 0%, var(--sox-black) 100%);
+    border: 1px solid var(--sox-silver);
+    border-top: 3px solid var(--accent-red);
+    border-radius: 4px;
+    padding: 18px 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.05);
+    position: relative;
+    overflow-x: auto;
+  }
+  .scoreboard::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(90deg, transparent 0, transparent 2px, rgba(196,206,212,0.03) 2px, rgba(196,206,212,0.03) 3px);
+    pointer-events: none;
+    border-radius: 4px;
+  }
+  .sb-grid {
+    display: grid;
+    grid-template-columns: minmax(120px, 1.4fr) repeat(6, minmax(34px, 1fr)) minmax(44px, 0.8fr);
+    gap: 4px;
+    position: relative;
+    min-width: 520px;
+  }
+  .sb-cell {
+    background: var(--sox-black);
+    color: var(--sox-silver);
+    text-align: center;
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 700;
+    font-size: 1.15rem;
+    padding: 10px 4px;
+    border-radius: 3px;
+    border: 1px solid var(--steel);
+    line-height: 1;
+  }
+  .sb-team-name {
+    text-align: left;
+    padding-left: 10px;
+    font-family: 'Bungee', cursive;
+    font-size: 0.95rem;
+    letter-spacing: 2px;
+    color: var(--sox-silver);
+    background: transparent;
+    border-color: transparent;
+  }
+  .sb-head {
+    background: transparent;
+    border-color: transparent;
+    color: var(--sox-silver-dark);
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    padding: 4px 0 6px;
+  }
+  .sb-head.sb-total-head {
+    color: var(--accent-red);
+    font-family: 'Bungee', cursive;
+  }
+  .sb-cell.sb-total {
+    background: linear-gradient(180deg, var(--steel) 0%, var(--graphite) 100%);
+    color: var(--sox-white);
+    font-size: 1.4rem;
+    font-family: 'Bungee Shade', cursive;
+    letter-spacing: -1px;
+    border-color: var(--sox-silver-dark);
+  }
+  .sb-cell.sb-current {
+    border-color: var(--accent-red);
+    background: rgba(200,16,46,0.12);
+    color: var(--sox-white);
+    box-shadow: 0 0 10px rgba(200,16,46,0.35);
+  }
+  .sb-cell.sb-dash { color: var(--steel); }
+
+  .sb-controls {
+    margin-top: 14px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    position: relative;
+  }
+  .sb-inning-badge {
+    font-family: 'Bungee', cursive;
+    font-size: 0.95rem;
+    letter-spacing: 2px;
+    color: var(--sox-white);
+    background: linear-gradient(180deg, var(--accent-red) 0%, #8b0000 100%);
+    padding: 8px 14px;
+    border-radius: 4px;
+    box-shadow: 0 0 14px rgba(200,16,46,0.5);
+    text-shadow: 1px 1px 0 var(--sox-black);
+  }
+  .sb-inning-badge .sb-half {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 0.78rem;
+    letter-spacing: 2px;
+    opacity: 0.9;
+    margin-left: 6px;
+  }
+  .sb-btn {
+    background: linear-gradient(180deg, var(--steel) 0%, var(--graphite) 100%);
+    color: var(--chrome);
+    border: 1px solid var(--sox-silver-dark);
+    padding: 9px 14px;
+    border-radius: 4px;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 0.78rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.12s ease;
+  }
+  .sb-btn:hover { border-color: var(--accent-red); color: var(--sox-white); transform: translateY(-1px); }
+  .sb-btn.sb-run-plus { background: linear-gradient(180deg, var(--sox-silver) 0%, var(--sox-silver-dark) 100%); color: var(--sox-black); border-color: var(--sox-silver); }
+  .sb-btn.sb-run-plus:hover { box-shadow: 0 0 14px var(--glow); color: var(--sox-black); }
+  .sb-btn.sb-publish { background: linear-gradient(180deg, var(--accent-red) 0%, #8b0000 100%); color: var(--sox-white); border-color: var(--accent-red); }
+  .sb-btn.sb-publish:hover { box-shadow: 0 0 18px rgba(200,16,46,0.6); }
+  .sb-btn.sb-reset { opacity: 0.7; }
+
+  .sb-status-line {
+    margin-top: 8px;
+    font-size: 0.7rem;
+    color: var(--sox-silver-dark);
+    font-family: 'Roboto Mono', monospace;
+    letter-spacing: 1px;
+    position: relative;
+  }
+
+  @media (max-width: 620px) {
+    .sb-grid { font-size: 0.9rem; }
+    .sb-cell { padding: 8px 2px; font-size: 0.95rem; }
+    .sb-cell.sb-total { font-size: 1.1rem; }
+    .sb-team-name { font-size: 0.8rem; letter-spacing: 1px; }
+    .sb-inning-badge { font-size: 0.8rem; padding: 7px 10px; }
+    .sb-btn { padding: 8px 10px; font-size: 0.7rem; letter-spacing: 1px; }
+  }
 </style>
+
 
 </head>
 <body>
@@ -898,6 +1042,18 @@
   </header>
 
   <div class="view active" id="game-view">
+    <div class="scoreboard" id="scoreboard">
+      <div class="sb-grid" id="sb-grid"></div>
+      <div class="sb-controls">
+        <span class="sb-inning-badge"><span id="sb-inning-num">1ST</span><span class="sb-half" id="sb-half">TOP</span></span>
+        <button type="button" class="sb-btn sb-run-plus" id="sb-add-run">+ 1 RUN</button>
+        <button type="button" class="sb-btn" id="sb-sub-run">− 1 RUN</button>
+        <button type="button" class="sb-btn" id="sb-advance">NEXT HALF →</button>
+        <button type="button" class="sb-btn sb-reset" id="sb-reset">RESET</button>
+        <button type="button" class="sb-btn sb-publish" id="sb-publish">💾 PUBLISH SCORE</button>
+      </div>
+      <div class="sb-status-line" id="sb-status-line">&nbsp;</div>
+    </div>
     <div class="now-playing" id="now-playing">
       <div class="np-label">Now Batting</div>
       <div class="np-name" id="np-name">—</div>
@@ -1474,6 +1630,219 @@
   window.addEventListener('beforeunload', e => {
     if (dirty) { e.preventDefault(); e.returnValue = ''; }
   });
+
+
+  // =========================================================================
+  //   Scoreboard
+  // =========================================================================
+  const SCORE_KEY = 'whiteSoxSoundboard_score_v1';
+  const SCORE_PATH = 'scoreboard.json';
+  const SCORE_RAW_URL = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/${BRANCH}/${SCORE_PATH}`;
+  const SCORE_API_URL = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${SCORE_PATH}`;
+  const INNINGS = 6;
+
+  const ordinal = n => {
+    const s = ['TH','ST','ND','RD'], v = n % 100;
+    return n + (s[(v - 20) % 10] || s[v] || s[0]);
+  };
+
+  let score = blankScore();
+  let scoreSha = null;
+
+  function blankScore() {
+    return {
+      away: { name: 'VISITORS', innings: Array(INNINGS).fill(null) },
+      home: { name: 'WHITE SOX', innings: Array(INNINGS).fill(null) },
+      currentInning: 1,
+      half: 'top',
+      updatedAt: null,
+    };
+  }
+
+  function cacheScore() {
+    try { localStorage.setItem(SCORE_KEY, JSON.stringify(score)); } catch (e) {}
+  }
+  function loadScoreCache() {
+    try {
+      const raw = localStorage.getItem(SCORE_KEY);
+      if (raw) {
+        const s = JSON.parse(raw);
+        if (s && s.away && s.home && Array.isArray(s.away.innings)) {
+          score = s;
+          // Pad to INNINGS if legacy data
+          while (score.away.innings.length < INNINGS) score.away.innings.push(null);
+          while (score.home.innings.length < INNINGS) score.home.innings.push(null);
+          return true;
+        }
+      }
+    } catch (e) {}
+    return false;
+  }
+
+  async function loadScoreFromGithub() {
+    try {
+      const res = await fetch(SCORE_RAW_URL + '?t=' + Date.now(), { cache: 'no-store' });
+      if (!res.ok) return false;
+      const remote = await res.json();
+      // Merge remote over local if remote is newer or local doesn't have an updatedAt
+      const localTs = score.updatedAt ? Date.parse(score.updatedAt) : 0;
+      const remoteTs = remote.updatedAt ? Date.parse(remote.updatedAt) : 0;
+      if (remoteTs >= localTs) {
+        score = Object.assign(blankScore(), remote);
+        while (score.away.innings.length < INNINGS) score.away.innings.push(null);
+        while (score.home.innings.length < INNINGS) score.home.innings.push(null);
+        cacheScore();
+      }
+      // Fetch SHA for later PUT
+      const meta = await fetch(SCORE_API_URL + '?ref=' + BRANCH, { headers: { 'Accept': 'application/vnd.github+json' } });
+      if (meta.ok) { const m = await meta.json(); scoreSha = m.sha || null; }
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function totalRuns(side) {
+    return score[side].innings.reduce((a, b) => a + (Number(b) || 0), 0);
+  }
+
+  function renderScoreboard() {
+    const grid = document.getElementById('sb-grid');
+    if (!grid) return;
+    const inningHeads = Array.from({ length: INNINGS }, (_, i) => `<div class="sb-cell sb-head${score.currentInning === i + 1 ? ' sb-current' : ''}">${i + 1}</div>`).join('');
+    const cellsFor = (side) => score[side].innings.map((v, i) => {
+      const isCurrent = score.currentInning === i + 1 && score.half === (side === 'away' ? 'top' : 'bottom');
+      const cls = 'sb-cell' + (isCurrent ? ' sb-current' : '') + (v == null ? ' sb-dash' : '');
+      const txt = v == null ? '·' : v;
+      return `<div class="${cls}">${txt}</div>`;
+    }).join('');
+    grid.innerHTML =
+      `<div class="sb-cell sb-head sb-team-name">&nbsp;</div>${inningHeads}<div class="sb-cell sb-head sb-total-head">R</div>` +
+      `<div class="sb-cell sb-team-name">${escapeHtml(score.away.name || 'VISITORS')}</div>${cellsFor('away')}<div class="sb-cell sb-total">${totalRuns('away')}</div>` +
+      `<div class="sb-cell sb-team-name">${escapeHtml(score.home.name || 'WHITE SOX')}</div>${cellsFor('home')}<div class="sb-cell sb-total">${totalRuns('home')}</div>`;
+    document.getElementById('sb-inning-num').textContent = ordinal(score.currentInning);
+    document.getElementById('sb-half').textContent = score.half === 'top' ? 'TOP' : 'BOT';
+  }
+
+  function setScoreStatus(msg, kind) {
+    const el = document.getElementById('sb-status-line');
+    if (!el) return;
+    el.textContent = msg || ' ';
+    el.style.color = kind === 'ok' ? '#a8e4b8' : kind === 'warn' ? '#f5c16c' : 'var(--sox-silver-dark)';
+  }
+
+  function currentBattingSide() {
+    return score.half === 'top' ? 'away' : 'home';
+  }
+
+  function changeRun(delta) {
+    const side = currentBattingSide();
+    const i = score.currentInning - 1;
+    const cur = score[side].innings[i] || 0;
+    const next = Math.max(0, cur + delta);
+    score[side].innings[i] = next === 0 && cur === 0 ? 0 : next;
+    score.updatedAt = new Date().toISOString();
+    cacheScore();
+    renderScoreboard();
+  }
+
+  function advanceHalf() {
+    if (score.half === 'top') {
+      score.half = 'bottom';
+    } else {
+      score.half = 'top';
+      score.currentInning = Math.min(INNINGS, score.currentInning + 1);
+    }
+    // First time an inning is entered, seed 0 so it shows on scoreboard.
+    const side = currentBattingSide();
+    const i = score.currentInning - 1;
+    if (score[side].innings[i] == null) score[side].innings[i] = 0;
+    score.updatedAt = new Date().toISOString();
+    cacheScore();
+    renderScoreboard();
+  }
+
+  function resetScore() {
+    if (!confirm('Reset the scoreboard? This wipes all scores and resets to 1st inning.')) return;
+    const names = { away: score.away.name, home: score.home.name };
+    score = blankScore();
+    score.away.name = names.away;
+    score.home.name = names.home;
+    cacheScore();
+    renderScoreboard();
+    setScoreStatus('Scoreboard reset locally. Click PUBLISH SCORE to sync to GitHub.');
+  }
+
+  async function publishScore() {
+    let token = getToken();
+    if (!token) {
+      showModal({
+        title: 'Connect to GitHub',
+        text: `To publish the score live, paste a GitHub Personal Access Token with write access to <strong>${REPO_OWNER}/${REPO_NAME}</strong>.`,
+        showInput: true,
+        placeholder: 'ghp_...',
+        actions: [
+          { label: 'Cancel', onclick: () => hideModal() },
+          { label: 'Save Token', variant: 'primary', onclick: val => {
+            if (!val || !val.trim()) return;
+            setToken(val.trim());
+            hideModal();
+            publishScore();
+          }},
+        ],
+      });
+      return;
+    }
+    setScoreStatus('Publishing score…');
+    score.updatedAt = new Date().toISOString();
+    const body = JSON.stringify(score, null, 2);
+    const b64 = btoa(unescape(encodeURIComponent(body)));
+    // Refresh SHA
+    try {
+      const meta = await fetch(SCORE_API_URL + '?ref=' + BRANCH, { headers: { 'Accept': 'application/vnd.github+json' } });
+      if (meta.ok) { const m = await meta.json(); scoreSha = m.sha || null; }
+      else if (meta.status === 404) { scoreSha = null; }
+    } catch (e) { /* keep last known sha */ }
+
+    const payload = {
+      message: 'Update scoreboard ' + new Date().toLocaleString(),
+      content: b64,
+      branch: BRANCH,
+    };
+    if (scoreSha) payload.sha = scoreSha;
+    try {
+      const res = await fetch(SCORE_API_URL, {
+        method: 'PUT',
+        headers: { 'Accept': 'application/vnd.github+json', 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      if (res.status === 401) {
+        setScoreStatus('GitHub rejected the token (401). Clear it and try again.', 'warn');
+        return;
+      }
+      if (!res.ok) throw new Error('HTTP ' + res.status + ' — ' + await res.text());
+      const out = await res.json();
+      scoreSha = out.content && out.content.sha;
+      setScoreStatus('Score published ✓ — live for everyone.', 'ok');
+    } catch (err) {
+      setScoreStatus('Publish failed: ' + err.message, 'warn');
+    }
+  }
+
+  function wireScoreboard() {
+    document.getElementById('sb-add-run').addEventListener('click', () => changeRun(+1));
+    document.getElementById('sb-sub-run').addEventListener('click', () => changeRun(-1));
+    document.getElementById('sb-advance').addEventListener('click', advanceHalf);
+    document.getElementById('sb-reset').addEventListener('click', resetScore);
+    document.getElementById('sb-publish').addEventListener('click', publishScore);
+  }
+
+  // Boot scoreboard alongside the lineup boot logic
+  loadScoreCache();
+  wireScoreboard();
+  renderScoreboard();
+  loadScoreFromGithub().then(renderScoreboard);
+
 
   // ---------- go ----------
   loadEmbedded();
