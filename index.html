@@ -325,7 +325,65 @@
   .progress-bar { height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; margin-top: 16px; overflow: hidden; position: relative; }
   .progress-fill { height: 100%; background: linear-gradient(90deg, var(--sox-silver) 0%, var(--sox-white) 100%); width: 0%; transition: width 0.1s linear; box-shadow: 0 0 10px var(--glow); }
 
-  .lineup-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
+  .lineup-grid {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 10px;
+    overflow-x: auto;
+    padding: 4px 4px 16px;
+    scroll-snap-type: x mandatory;
+    scrollbar-color: var(--steel) var(--sox-black);
+  }
+  .lineup-grid .player-card {
+    flex: 0 0 auto;
+    width: 180px;
+    padding: 14px 12px;
+    scroll-snap-align: start;
+  }
+  .lineup-grid .player-card .card-row {
+    flex-direction: column;
+    text-align: center;
+    gap: 6px;
+  }
+  .lineup-grid .player-card .batting-num {
+    font-size: 3.2rem;
+    min-width: 0;
+    width: 100%;
+  }
+  .lineup-grid .player-card .card-info {
+    width: 100%;
+    min-width: 0;
+  }
+  .lineup-grid .player-card .player-name {
+    font-size: 0.95rem;
+    white-space: normal;
+    text-overflow: clip;
+    overflow: visible;
+    line-height: 1.15;
+    min-height: 2.2em;
+    letter-spacing: 0.5px;
+  }
+  .lineup-grid .player-card .song-name {
+    font-size: 0.62rem;
+    letter-spacing: 0;
+    line-height: 1.25;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .lineup-grid .player-card .play-icon {
+    font-size: 1.5rem;
+    margin-top: 4px;
+  }
+  @media (max-width: 780px) {
+    .lineup-grid .player-card { width: 150px; }
+    .lineup-grid .player-card .batting-num { font-size: 2.6rem; }
+  }
+  @media (max-width: 480px) {
+    .lineup-grid .player-card { width: 130px; padding: 10px 8px; }
+  }
+
 
   .player-card {
     background: linear-gradient(135deg, var(--charcoal) 0%, var(--graphite) 100%);
@@ -779,7 +837,44 @@
     color: var(--sox-silver);
     font-size: 0.85em;
   }
+
+  /* ---- up/down order arrows on Coach rows ---- */
+  .order {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+  }
+  .order-arrows {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .order-btn {
+    background: var(--graphite);
+    color: var(--sox-silver);
+    border: 1px solid var(--steel);
+    width: 22px;
+    height: 20px;
+    border-radius: 3px;
+    font-size: 0.65rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0;
+    font-family: inherit;
+    transition: all 0.12s ease;
+  }
+  .order-btn:hover { background: var(--accent-red); color: var(--sox-white); border-color: var(--accent-red); }
+  .order-btn:disabled { opacity: 0.25; cursor: default; background: var(--graphite); color: var(--sox-silver); border-color: var(--steel); }
+  .drag-handle {
+    cursor: grab;
+    padding: 4px 4px;
+    user-select: none;
+    font-size: 1.2rem;
+  }
+  .drag-handle:active { cursor: grabbing; }
+  .player-row { cursor: auto; }
 </style>
+
 </head>
 <body>
 <div class="container">
@@ -1079,7 +1174,11 @@
       row.dataset.id = p.id;
       row.innerHTML = `
         <div class="order">
-          <span class="drag-handle" title="Drag to reorder">≡</span>
+          <span class="drag-handle" title="Grab here to drag">≡</span>
+          <div class="order-arrows">
+            <button type="button" class="order-btn" data-move="up"   data-id="${p.id}" title="Move up">▲</button>
+            <button type="button" class="order-btn" data-move="down" data-id="${p.id}" title="Move down">▼</button>
+          </div>
           <span class="batting-num-mini">${p.order}</span>
         </div>
         <div class="name">
@@ -1125,18 +1224,50 @@
 
   function wireDragAndDrop(container) {
     let draggingId = null;
+
+    // Arrow button handlers (reliable backup — works everywhere, including touch).
+    container.querySelectorAll('.order-btn[data-move]').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        const id = btn.dataset.id;
+        const dir = btn.dataset.move;
+        const idx = players.findIndex(p => p.id === id);
+        if (idx < 0) return;
+        const target = dir === 'up' ? idx - 1 : idx + 1;
+        if (target < 0 || target >= players.length) return;
+        const [moved] = players.splice(idx, 1);
+        players.splice(target, 0, moved);
+        renumber();
+        markDirty();
+        renderAdmin();
+      });
+    });
+
+    // Drag-to-reorder: only the handle starts a drag. Inputs stay clickable.
     container.querySelectorAll('.player-row').forEach(row => {
+      const handle = row.querySelector('.drag-handle');
+      row.draggable = false;
+
+      if (handle) {
+        handle.addEventListener('mousedown', () => { row.draggable = true; });
+        handle.addEventListener('touchstart', () => { row.draggable = true; }, { passive: true });
+      }
+
       row.addEventListener('dragstart', e => {
+        if (!row.draggable) { e.preventDefault(); return; }
         draggingId = row.dataset.id;
         row.classList.add('dragging');
         e.dataTransfer.effectAllowed = 'move';
-        e.dataTransfer.setData('text/plain', draggingId);
+        try { e.dataTransfer.setData('text/plain', draggingId); } catch (_) {}
       });
       row.addEventListener('dragend', () => {
         row.classList.remove('dragging');
+        row.draggable = false;
+        draggingId = null;
         container.querySelectorAll('.player-row').forEach(r => r.classList.remove('drag-over'));
       });
       row.addEventListener('dragover', e => {
+        if (!draggingId) return;
         e.preventDefault();
         e.dataTransfer.dropEffect = 'move';
         if (row.dataset.id !== draggingId) row.classList.add('drag-over');
